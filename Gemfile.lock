@@ -27,6 +27,8 @@ GEM
     tilt (2.1.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2023.3)
+      tzinfo (>= 1.0.0)
 
 PLATFORMS
   arm64-darwin-21
@@ -38,7 +40,7 @@ DEPENDENCIES
   puma
   ruby-openai
   sinatra
-  tzinfo
+  tzinfo-data
 
 BUNDLED WITH
    2.3.20
