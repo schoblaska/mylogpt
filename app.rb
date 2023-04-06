@@ -80,7 +80,7 @@ post "/tweet" do
           {
             type: "image",
             image_url: "https://schoblaska.org/assets/twitter.png",
-            alt_text: "images"
+            alt_text: "Twitter logo"
           },
           { type: "mrkdwn", text: "Twitter | #{now}" }
         ]
