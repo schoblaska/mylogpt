@@ -3,7 +3,7 @@ PROMPT =
     {
       role: "system",
       content:
-        "Your job is mimick the style of these example messages for different user prompts."
+        "Your job is mimic the style of these example messages for different user prompts."
     }
   ] +
     %%
@@ -167,7 +167,7 @@ upstaira neighbor: is my upstairs neighbor also excited that the Bulls have clos
 
 online shopping: just went ham on online shopping … i can finally dress like how’ve ive been wanting to for years now … like someone that goes to NYU for grad school on mommy & daddys dime 😝😝
 
-chicago vibes: back in chicago ... pats pizza ... my kitty cat ... bae ... watching somethings gotta give for the 1st time ... thats amore 🌛
+meaning of life: back in chicago ... pats pizza ... my kitty cat ... bae ... watching somethings gotta give for the 1st time ... thats amore 🌛
 
 drinking: getting hammered in Nashville and these honkies are tonkin
 
