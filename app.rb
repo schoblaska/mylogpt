@@ -78,8 +78,7 @@ post "/tweet" do
         elements: [
           {
             type: "image",
-            image_url:
-              "https://abs.twimg.com/icons/apple-touch-icon-192x192.png",
+            image_url: "https://schoblaska.org/assets/twitter.png",
             alt_text: "images"
           },
           { type: "mrkdwn", text: "Twitter | #{now}" }
