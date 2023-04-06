@@ -1,6 +1,14 @@
 require "sinatra"
 require "json"
 require "dotenv/load"
+require "tzinfo"
+
+def now
+  TZInfo::Timezone
+    .get("America/Chicago")
+    .now
+    .strftime("%b %-d, %Y at %-l:%M %p")
+end
 
 def allow?(params)
   if ENV["SINATRA_ENV"] == "production"
@@ -33,7 +41,7 @@ post "/tweet" do
               "https://abs.twimg.com/icons/apple-touch-icon-192x192.png",
             alt_text: "images"
           },
-          { type: "mrkdwn", text: "Twitter | Today at 5:00 PM" }
+          { type: "mrkdwn", text: "Twitter | #{now}" }
         ]
       }
     ]
