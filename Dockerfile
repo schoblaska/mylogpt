@@ -9,7 +9,7 @@ RUN apt-get update -qq && \
 
 WORKDIR /app
 
-ENV SINATRA_ENV="production" \
+ENV RACK_ENV="production" \
     BUNDLE_WITHOUT="development"
 
 COPY Gemfile Gemfile.lock ./
