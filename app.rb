@@ -1,9 +1,13 @@
 require "sinatra"
 require "json"
+require "dotenv/load"
 
-def allow?
-  return true unless ENV["SINATRA_ENV"] == "production"
-  ENV["SLACK_VERIFICATION_TOKEN"] == params[:token]
+def allow?(params)
+  if ENV["SINATRA_ENV"] == "production"
+    ENV["SLACK_VERIFICATION_TOKEN"] == params[:token]
+  else
+    true
+  end
 end
 
 def get_tweet(phrase)
@@ -13,7 +17,7 @@ end
 post "/tweet" do
   content_type :json
 
-  halt(403, "Invalid Request") unless allow?
+  halt(403, "Invalid Request") unless allow?(params)
 
   tweet = get_tweet(params[:text])
 
