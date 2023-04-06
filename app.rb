@@ -3,6 +3,7 @@ require "json"
 require "dotenv/load"
 require "tzinfo"
 require "openai"
+require "timeout"
 
 require_relative "lib/prompt"
 
@@ -22,16 +23,18 @@ def allow?(params)
 end
 
 def chat(client, messages)
-  response =
-    client.chat(
-      parameters: {
-        model: "gpt-3.5-turbo",
-        messages: messages,
-        temperature: 0.5
-      }
-    )
+  Timeout.timeout(5) do
+    response =
+      client.chat(
+        parameters: {
+          model: "gpt-3.5-turbo",
+          messages: messages,
+          temperature: 0.5
+        }
+      )
 
-  response.dig("choices", 0, "message", "content")
+    response.dig("choices", 0, "message", "content")
+  end
 end
 
 def generate_tweet(phrase)
@@ -84,4 +87,6 @@ post "/tweet" do
       }
     ]
   }.to_json
+rescue Timeout::Error
+  halt(408, "Request Timeout")
 end
