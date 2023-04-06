@@ -30,10 +30,7 @@ def generate_tweet(phrase)
     client.chat(
       parameters: {
         model: "gpt-3.5-turbo",
-        messages: [
-          { role: "system", content: PROMPT },
-          { role: "user", content: phrase }
-        ],
+        messages: PROMPT + [{ role: "user", content: phrase }],
         temperature: 0.7
       }
     )
