@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    concurrent-ruby (1.2.2)
     dotenv (2.8.1)
     httparty (0.21.0)
       mini_mime (>= 1.0.0)
@@ -24,6 +25,8 @@ GEM
       rack-protection (= 3.0.5)
       tilt (~> 2.0)
     tilt (2.1.0)
+    tzinfo (2.0.6)
+      concurrent-ruby (~> 1.0)
 
 PLATFORMS
   arm64-darwin-21
@@ -35,6 +38,7 @@ DEPENDENCIES
   puma
   ruby-openai
   sinatra
+  tzinfo
 
 BUNDLED WITH
    2.3.20
