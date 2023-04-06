@@ -23,7 +23,7 @@ def allow?(params)
 end
 
 def chat(client, messages)
-  Timeout.timeout(5) do
+  Timeout.timeout(10) do
     response =
       client.chat(
         parameters: {
