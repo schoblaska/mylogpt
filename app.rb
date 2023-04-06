@@ -2,6 +2,9 @@ require "sinatra"
 require "json"
 require "dotenv/load"
 require "tzinfo"
+require "openai"
+
+require_relative "lib/prompt"
 
 def now
   TZInfo::Timezone
@@ -18,8 +21,26 @@ def allow?(params)
   end
 end
 
-def get_tweet(phrase)
-  "my tiktok on #{phrase} is blowing up again"
+def generate_tweet(phrase)
+  # "my tiktok on #{phrase} is blowing up again"
+
+  client = OpenAI::Client.new(access_token: ENV["OPENAI_ACCESS_TOKEN"])
+
+  response =
+    client.chat(
+      parameters: {
+        model: "gpt-3.5-turbo",
+        messages: [
+          { role: "system", content: PROMPT },
+          { role: "user", content: phrase }
+        ],
+        temperature: 0.7
+      }
+    )
+
+  p response
+
+  response.dig("choices", 0, "message", "content")
 end
 
 post "/tweet" do
@@ -27,7 +48,7 @@ post "/tweet" do
 
   halt(403, "Invalid Request") unless allow?(params)
 
-  tweet = get_tweet(params[:text])
+  tweet = generate_tweet(params[:text])
 
   {
     blocks: [
