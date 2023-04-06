@@ -18,4 +18,4 @@ RUN bundle install
 COPY . .
 
 EXPOSE 4567
-CMD ["ruby", "app.rb", "-s", "puma", "-e", "production"]
+CMD ["bundle", "exec","ruby", "app.rb", "-s", "puma", "-e", "production"]
