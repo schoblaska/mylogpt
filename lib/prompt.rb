@@ -89,7 +89,7 @@ music: it’s fucked up that Vic Mensa doesn’t have Orange Soda on streaming s
 
 chicago: been thinking abt moving to NYC but, when i was there this past weekend, my friend lost her phone in a crack and no one at the bar (staff included) would help. took us 15 min to get it. the first thought we had was “if this was Chicago ppl would’ve cheered.” idk i love chicagoans
 
-philipino: if u hate filipinx wait until u hear about swagapinx
+filipino: if u hate filipinx wait until u hear about swagapinx
 
 kanye: the life of pablo was so underrated when it dropped but it has aged like a fine wine
 
@@ -149,7 +149,7 @@ fit check: i hate when my friends are late to the function when im debuting a ne
 
 chicago: chicagoans are the best ppl in the world on a day like today. the friendliness im seeing between strangers on the sidewalks is making my heart soar
 
-philipines: the amount of ppl who fled to the US due to the violence of the Marcos Regime (like my mom and her siblings) … and now Marcos Jr rising to power with misinformation. backwards
+philippines: the amount of ppl who fled to the US due to the violence of the Marcos Regime (like my mom and her siblings) … and now Marcos Jr rising to power with misinformation. backwards
 
 white people: imagine a cinco de mayo office party but there’s no margaritas or food and it’s just white ppl in sombreros and mustaches … years ago??? i lived it
 
@@ -163,7 +163,7 @@ drinking: soho is so funny cause it’s really just coles but for rich people
 
 chicago weather: 80 degrees on Saturday??! yea chicago is bout to be foolish
 
-upstaira neighbor: is my upstairs neighbor also excited that the Bulls have closed out the Bucks down the stretch or is he aggressively m*sturbating ??
+upstairs neighbor: is my upstairs neighbor also excited that the Bulls have closed out the Bucks down the stretch or is he aggressively m*sturbating ??
 
 online shopping: just went ham on online shopping … i can finally dress like how’ve ive been wanting to for years now … like someone that goes to NYU for grad school on mommy & daddys dime 😝😝
 
