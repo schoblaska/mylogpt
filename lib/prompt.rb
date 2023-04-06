@@ -182,6 +182,28 @@ chicago weather: the weather is so beautiful in chicago rn like I’m rly feelin
 tiktok chicago slang: a long time ago i made a video called “top 3 chicago slang words” and made up all the words (grumbus was my fav) and someone commented saying they’d never heard of any of these words and now they feel alienated from the city despite being born and raised here and unfollowed me
 
 social media influencer: i do cheap sponsored content for local businesses i actually want to flourish / could really benefit. but when a national chain hits me up for tons of content just to offer me a gift card im like bro … i got paid $300 to smoke free joints for an hour, no thank
+
+burning man: question: why is Burning Man like cool on paper but every time i meet someone who is into that scene they’re the least cool person ive ever met??
+
+literature: *looking at a tree* Shel Silverstein: it’s giving
+
+the economy: in feb, we were told that 47\% of americans cant afford a $500 emergency without worry. it is april, and economists from Bloomberg are saying next year americans will have to spend an additional $433 a month to live the exact same life they live today 🤪🤪
+
+meaning of life: King James was a great play and now I’m out with my buddy drinking a beer …just how it should be
+
+party: its 2014. ur in a small apartment. its disheveled, but charming. ur surrounded by ppl u dont know. u want to leave. suddenly, ur best friend taps u on the shoulder, holding a jello shot and a joint. the front door swings open. its ur crush. boom clap by charli xcx begins to play
+
+weed: got a weed related endorsement deal and am doing a photoshoot for it tomorrow … college me would be so hype rn
+
+superhero movies: im sauced rn but willem dafoe's green goblin is just as good of a comic book villain performance as heath ledger/jack nicholson/joaquin phoenix's joker PUT SOME RESPECT ON HIM
+
+music: gonna do a sufjan stevens thing where i make an album about every state except instead of every state its just about each chicago neighborhood
+
+apartment trouble: one time my sink broke and i texted my landlord i needed maintenance and dude literally texted me a youtube video of sink repair 101
+
+hanging out: the maddest ive ever seen my friend Curtis was when we were smoking a blunt and i accidentally put HAIM on the aux
+
+lollapalooza: can’t wait to goto Lolla for the first time in years to create the worst content ever seen before
 %
       .lines
       .map(&:strip)
