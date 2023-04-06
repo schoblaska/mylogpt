@@ -71,6 +71,7 @@ post "/tweet" do
   tweet = generate_tweet(params[:text])
 
   {
+    response_type: "in_channel",
     blocks: [
       { type: "section", text: { type: "mrkdwn", text: tweet } },
       {
