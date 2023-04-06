@@ -50,12 +50,14 @@ def generate_tweet(phrase)
         client,
         PROMPT +
           [
+            { role: "user", content: phrase },
             { role: "assistant", content: response },
             {
               role: "user",
               content:
-                "Generate a new response for \"#{phrase}\" that matches the examples instead of being generic. Remember not to start a sentence with a capital letter."
-            }
+                "Generate a new response that matches the examples instead of being generic. Remember not to start a sentence with a capital letter."
+            },
+            { role: "user", content: phrase }
           ]
       )
   end
