@@ -15,7 +15,7 @@ def now
 end
 
 def allow?(params)
-  if ENV["SINATRA_ENV"] == "production"
+  if ENV["RACK_ENV"] == "production"
     ENV["SLACK_VERIFICATION_TOKEN"] == params[:token]
   else
     true
