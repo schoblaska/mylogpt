@@ -23,7 +23,5 @@ curl -X POST "http://localhost:4567/tweet" \
     * [ ] Separate repo for managing data and tooling
 * [ ] Better response filtering. Eg, reject anything that includes "AI language model"
   * [ ] Reject capitalized responses without calling out the grammar (ChatGPT just gives the same response, but starting with a lowercase)
-  * [ ] Instead of retrying, ask untrained GPT-3 to rephrase the prompt? Someone is probably asking a complex question rather than providing a topic. "Extract the main topics from this phrase and return them, separated by spaces"
-    * [ ] Maybe just do this for all prompts longer than a few words
 * [ ] Fix intermittent "invalid blocks" error
 * [ ] Turn into an app?
