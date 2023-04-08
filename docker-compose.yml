@@ -5,7 +5,7 @@ services:
     build: .
     container_name: mylogpt
     restart: unless-stopped
-    command: bundle exec ruby app.rb -s puma -e development
+    command: bundle exec ruby app.rb -s puma -e development -o 0.0.0.0
     depends_on:
       - mylogpt_redis
     environment:
@@ -28,4 +28,10 @@ services:
   mylogpt_redis:
     image: redis
     container_name: mylogpt-redis
+    restart: unless-stopped
+
+  # an endpoint to receive webhook payloads
+  mylogpt_echo:
+    image: mendhak/http-https-echo:29
+    container_name: mylogpt-echo
     restart: unless-stopped

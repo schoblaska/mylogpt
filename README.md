@@ -1,19 +1,17 @@
 # MyloGPT
-To run MyloGPT locally:
+To run MyloGPT locally, `cp .env.example .env` and replace the placeholder values. Then:
 
 ```bash
-OPENAI_ACCESS_TOKEN=asdf1234 ruby app.rb
+docker-compose up --build
 ```
 
 ```bash
-PROMPT="chicago vs nyc"
+PROMPT="chicago bars"
+RESPONSE_URL="http://mylogpt-echo:8080"
 
 curl -X POST "http://localhost:4567/tweet" \
   -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "text=$PROMPT" | \
-  jq '.blocks[] | select(.type == "section") | .text.text'
-
-# "nyc is like if chicago and LA had a baby then that baby was raised by wolves"
+  -d "response_url=$RESPONSE_URL&text=$PROMPT"
 ```
 
 ## TODO
