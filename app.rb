@@ -25,7 +25,7 @@ post "/tweet" do
 
   ResponderJob.perform_async(params[:text], params[:response_url])
 
-  halt(200)
+  { response_type: "in_channel", text: "..." }
 rescue Timeout::Error
   halt(408, "Request Timeout")
 end
