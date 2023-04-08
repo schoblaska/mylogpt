@@ -49,8 +49,9 @@ class ResponderJob
     sorry = tweet[0, 20] =~ /sorry/i
     info = tweet =~ /(context|information)/i
     ai_model = tweet =~ /ai language model/i
+    capital_sentences = tweet =~ /\. [A-Z]/
 
-    (sorry && info) || ai_model
+    (sorry && info) || (sorry && capital_sentences) || ai_model
   end
 
   def text_block(text)
