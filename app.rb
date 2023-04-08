@@ -1,9 +1,11 @@
-require "sinatra"
-require "json"
+require "bundler"
 require "dotenv/load"
-require "tzinfo"
+require "json"
 require "openai"
+require "sidekiq"
+require "sinatra"
 require "timeout"
+require "tzinfo"
 
 require_relative "lib/prompt"
 
@@ -67,6 +69,8 @@ end
 
 post "/tweet" do
   content_type :json
+
+  p params
 
   halt(403, "Invalid Request") unless allow?(params)
 

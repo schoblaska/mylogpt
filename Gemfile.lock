@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     concurrent-ruby (1.2.2)
+    connection_pool (2.4.0)
     dotenv (2.8.1)
     httparty (0.21.0)
       mini_mime (>= 1.0.0)
@@ -16,9 +17,16 @@ GEM
     rack (2.2.6.4)
     rack-protection (3.0.5)
       rack
+    redis-client (0.14.1)
+      connection_pool
     ruby-openai (3.7.0)
       httparty (>= 0.18.1)
     ruby2_keywords (0.0.5)
+    sidekiq (7.0.8)
+      concurrent-ruby (< 2)
+      connection_pool (>= 2.3.0)
+      rack (>= 2.2.4)
+      redis-client (>= 0.11.0)
     sinatra (3.0.5)
       mustermann (~> 3.0)
       rack (~> 2.2, >= 2.2.4)
@@ -39,6 +47,7 @@ DEPENDENCIES
   dotenv
   puma
   ruby-openai
+  sidekiq
   sinatra
   tzinfo-data
 

@@ -1,0 +1,31 @@
+version: "3.4"
+
+services:
+  mylogpt:
+    build: .
+    container_name: mylogpt
+    restart: unless-stopped
+    command: bundle exec ruby app.rb -s puma -e development
+    depends_on:
+      - mylogpt_redis
+    environment:
+      - REDIS_URL=redis://mylogpt-redis:6379
+    ports:
+      - 4567:4567
+    env_file: .env
+
+  mylogpt_sidekiq:
+    build: .
+    container_name: mylogpt-sidekiq
+    restart: unless-stopped
+    command: bundle exec sidekiq -r ./app.rb
+    depends_on:
+      - mylogpt_redis
+    environment:
+      - REDIS_URL=redis://mylogpt-redis:6379
+    env_file: .env
+
+  mylogpt_redis:
+    image: redis
+    container_name: mylogpt-redis
+    restart: unless-stopped
