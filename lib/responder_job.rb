@@ -36,14 +36,19 @@ class ResponderJob
   private
 
   def bad_prompt?(prompt)
-    prompt.split(" ").length > 3 || prompt.length > 25 ||
-      prompt =~ /^(what|who|why|how|would)/
+    too_many_words = prompt.split(" ").length > 3
+    too_long = prompt.length > 25
+    question =
+      prompt =~
+        /^(what|who|why|how|would|is|are|could|how|should|do|where|which)/
+
+    too_many_words || too_long || question
   end
 
   def bad_tweet?(tweet)
-    sorry = !!(tweet[0, 20] =~ /sorry/i)
-    info = !!(tweet =~ /(context|information)/i)
-    ai_model = !!(tweet =~ /ai language model/i)
+    sorry = tweet[0, 20] =~ /sorry/i
+    info = tweet =~ /(context|information)/i
+    ai_model = tweet =~ /ai language model/i
 
     (sorry && info) || ai_model
   end
