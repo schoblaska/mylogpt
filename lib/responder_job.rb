@@ -4,9 +4,9 @@ class ResponderJob
   def perform(prompt, response_url)
     @gpt_client = GPTClient.new
 
-    prompt = prompt.downcase.gsub(%r{[^a-z'\s/]}, "")
+    prompt = prompt.downcase.gsub(%r{[^a-z'\s/]}, "").strip
 
-    if prompt.split(" ").length > 3 || prompt.length > 25
+    if bad_prompt?(prompt)
       prompt =
         @gpt_client.chat(
           "Using three words or less, extract the key words from this phrase: \"#{prompt}\""
@@ -27,6 +27,11 @@ class ResponderJob
   end
 
   private
+
+  def bad_prompt?(prompt)
+    prompt.split(" ").length > 3 || prompt.length > 25 ||
+      prompt =~ /^(what|who|why|how|would)/
+  end
 
   def tweet_block(tweet)
     {
