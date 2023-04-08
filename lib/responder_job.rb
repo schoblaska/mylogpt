@@ -18,7 +18,8 @@ class ResponderJob
           ]
         )
 
-      prompt.downcase!.gsub!(/\.$/, "").gsub!(%r{[^a-z'\s/]}, "")
+      prompt.downcase!.gsub!(/\.$/, "")
+      prompt.gsub!(%r{[^a-z'\s/]}, "")
     end
 
     tweet = generate_tweet(prompt)
