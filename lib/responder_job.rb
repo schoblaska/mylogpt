@@ -63,6 +63,8 @@ class ResponderJob
           }
         )
 
+      p response
+
       response.dig("choices", 0, "message", "content")
     end
   end
