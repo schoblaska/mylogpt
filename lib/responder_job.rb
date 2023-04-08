@@ -36,7 +36,7 @@ class ResponderJob
   end
 
   def chat(client, messages)
-    Timeout.timeout(10) do
+    Timeout.timeout(30) do
       response =
         client.chat(
           parameters: {
@@ -52,30 +52,7 @@ class ResponderJob
 
   def generate_tweet(phrase)
     client = OpenAI::Client.new(access_token: ENV["OPENAI_ACCESS_TOKEN"])
-
-    response = chat(client, PROMPT + [{ role: "user", content: phrase }])
-
-    if response[0] =~ /[A-Z]/
-      # the real mylo doesn't start sentences with a capital letter.
-      # we got back a generic ChatGPT response. ask it to try harder.
-      response =
-        chat(
-          client,
-          PROMPT +
-            [
-              { role: "user", content: phrase },
-              { role: "assistant", content: response },
-              {
-                role: "user",
-                content:
-                  "Generate a new response that matches the examples instead of being generic. Remember not to start a sentence with a capital letter."
-              },
-              { role: "user", content: phrase }
-            ]
-        )
-    end
-
-    response
+    chat(client, PROMPT + [{ role: "user", content: phrase }])
   end
 
   def now
