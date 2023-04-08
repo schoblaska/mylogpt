@@ -18,7 +18,6 @@ curl -X POST "http://localhost:4567/tweet" \
 
 ## TODO
 * [ ] Use official Docker repo [login action](https://github.com/docker/login-action)
-* [ ] Set up redis / sidekiq and generate tweets in background to avoid Slack's 3-second slash command timeout
 * [ ] Explore creating a fine-tuned model instead of using few-shot inline prompt
   * [ ] Automate tweet scraping and labeling (put in SQLite or something). Support multiple labels on each tweet (each label is a different training example)
     * [ ] Separate repo for managing data and tooling
