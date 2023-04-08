@@ -18,7 +18,6 @@ class ResponderJob
   def tweet_block(tweet)
     {
       response_type: "in_channel",
-      replace_original: true,
       blocks: [
         { type: "section", text: { type: "mrkdwn", text: tweet } },
         {
