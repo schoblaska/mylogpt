@@ -4,7 +4,7 @@ class ResponderJob
   def perform(prompt, response_url)
     @gpt_client = GPTClient.new
 
-    prompt = prompt.downcase.gsub(%r{[^a-z'\s/]}, "").strip
+    prompt = prompt.downcase.gsub(%r{[^a-z0-9'\s/]}, "").strip
 
     if bad_prompt?(prompt)
       new_prompt =
