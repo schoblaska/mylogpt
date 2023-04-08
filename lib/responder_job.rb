@@ -4,6 +4,8 @@ class ResponderJob
   def perform(prompt, response_url)
     @client = OpenAI::Client.new(access_token: ENV["OPENAI_ACCESS_TOKEN"])
 
+    prompt.downcase!.gsub!(%r{[^a-z'\s/]}, "")
+
     if prompt.split(" ").length > 3 || prompt.length > 25
       prompt =
         chat(
@@ -16,7 +18,7 @@ class ResponderJob
           ]
         )
 
-      prompt.downcase!.gsub!(/\.$/, "")
+      prompt.downcase!.gsub!(/\.$/, "").gsub!(%r{[^a-z'\s/]}, "")
     end
 
     tweet = generate_tweet(prompt)
