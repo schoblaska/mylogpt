@@ -36,7 +36,7 @@ class ResponderJob
   private
 
   def bad_prompt?(prompt)
-    too_many_words = prompt.split(" ").length > 3
+    too_many_words = prompt.split(" ").length > 4
     too_long = prompt.length > 25
     question =
       prompt =~
