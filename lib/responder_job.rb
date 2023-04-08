@@ -41,7 +41,7 @@ class ResponderJob
     too_long = prompt.length > 25
     question =
       prompt =~
-        /^(what|who|why|how|would|is|are|could|how|should|do|where|which)/
+        /^(what|who|why|how|would|is|are|could|how|should|do|where|which|if)/
 
     too_many_words || too_long || question
   end
@@ -52,7 +52,7 @@ class ResponderJob
     ai_model = tweet =~ /ai language model/i
     capital_sentences = tweet =~ /\. [A-Z]/
 
-    (sorry && info) || (sorry && capital_sentences) || ai_model
+    (sorry && info) || capital_sentences || ai_model
   end
 
   def text_block(text)
