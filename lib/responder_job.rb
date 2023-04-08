@@ -17,9 +17,16 @@ class ResponderJob
 
     tweet = generate_tweet(prompt)
 
+    response =
+      if bad_tweet?(tweet)
+        text_block("i'll be honest... i got nothing for that one")
+      else
+        tweet_block(tweet)
+      end
+
     HTTParty.post(
       response_url,
-      body: tweet_block(tweet).to_json,
+      body: response.to_json,
       headers: {
         "Content-Type" => "application/json"
       }
@@ -31,6 +38,18 @@ class ResponderJob
   def bad_prompt?(prompt)
     prompt.split(" ").length > 3 || prompt.length > 25 ||
       prompt =~ /^(what|who|why|how|would)/
+  end
+
+  def bad_tweet?(tweet)
+    sorry = !!(tweet[0, 20] =~ /sorry/i)
+    info = !!(tweet =~ /(context|information)/i)
+    ai_model = !!(tweet =~ /ai language model/i)
+
+    (sorry && info) || ai_model
+  end
+
+  def text_block(text)
+    { response_type: "in_channel", text: text }
   end
 
   def tweet_block(tweet)
