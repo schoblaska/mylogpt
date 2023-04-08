@@ -8,6 +8,7 @@ require "timeout"
 require "tzinfo"
 
 require_relative "lib/prompt"
+require_relative "lib/gpt_client"
 require_relative "lib/responder_job"
 
 def allow?(params)

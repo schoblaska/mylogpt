@@ -2,20 +2,14 @@ class ResponderJob
   include Sidekiq::Worker
 
   def perform(prompt, response_url)
-    @client = OpenAI::Client.new(access_token: ENV["OPENAI_ACCESS_TOKEN"])
+    @gpt_client = GPTClient.new
 
     prompt = prompt.downcase.gsub(%r{[^a-z'\s/]}, "")
 
     if prompt.split(" ").length > 3 || prompt.length > 25
       prompt =
-        chat(
-          [
-            {
-              role: "user",
-              content:
-                "Using three words or less, extract the key words from this phrase: \"#{prompt}\""
-            }
-          ]
+        @gpt_client.chat(
+          "Using three words or less, extract the key words from this phrase: \"#{prompt}\""
         )
 
       prompt = prompt.downcase.gsub(/\.$/, "").gsub(%r{[^a-z'\s/]}, "")
@@ -54,25 +48,8 @@ class ResponderJob
     }
   end
 
-  def chat(messages)
-    Timeout.timeout(30) do
-      response =
-        @client.chat(
-          parameters: {
-            model: "gpt-3.5-turbo",
-            messages: messages,
-            temperature: 0.5
-          }
-        )
-
-      p response
-
-      response.dig("choices", 0, "message", "content")
-    end
-  end
-
   def generate_tweet(phrase)
-    chat(PROMPT + [{ role: "user", content: phrase }])
+    @gpt_client.chat(phrase, add_prompt: true)
   end
 
   def now
