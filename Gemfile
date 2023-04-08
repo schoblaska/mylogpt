@@ -3,6 +3,7 @@
 source "https://rubygems.org"
 
 gem "dotenv"
+gem "httparty"
 gem "puma"
 gem "ruby-openai"
 gem "sidekiq"

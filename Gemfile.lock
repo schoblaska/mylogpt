@@ -45,6 +45,7 @@ PLATFORMS
 
 DEPENDENCIES
   dotenv
+  httparty
   puma
   ruby-openai
   sidekiq
