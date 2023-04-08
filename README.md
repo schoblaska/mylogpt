@@ -21,5 +21,6 @@ curl -X POST "http://localhost:4567/tweet" \
     * [ ] Separate repo for managing data and tooling
 * [ ] Better response filtering. Eg, reject anything that includes "AI language model"
   * [ ] Reject capitalized responses without calling out the grammar (ChatGPT just gives the same response, but starting with a lowercase)
+  * [ ] Reject anything that has "sorry" near the beginning and contains the word "context"
 * [ ] Fix intermittent "invalid blocks" error
 * [ ] Turn into an app?
