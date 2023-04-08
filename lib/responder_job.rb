@@ -7,12 +7,16 @@ class ResponderJob
     prompt = prompt.downcase.gsub(%r{[^a-z'\s/]}, "").strip
 
     if bad_prompt?(prompt)
-      prompt =
+      new_prompt =
         @gpt_client.chat(
           "Using three words or less, extract the key words from this phrase: \"#{prompt}\""
         )
 
-      prompt = prompt.downcase.gsub(/\.$/, "").gsub(%r{[^a-z'\s/]}, "")
+      new_prompt = new_prompt.downcase.gsub(/\.$/, "").gsub(%r{[^a-z'\s/]}, "")
+
+      puts "change prompt from \"#{prompt}\" to \"#{new_prompt}\""
+
+      prompt = new_prompt
     end
 
     tweet = generate_tweet(prompt)
@@ -20,6 +24,7 @@ class ResponderJob
 
     response =
       if bad_tweet?(tweet)
+        puts "bad tweet: \"#{tweet}\""
         text_block("i'll be honest... i got nothing for that one")
       else
         tweet_block(tweet)
@@ -48,11 +53,12 @@ class ResponderJob
 
   def bad_tweet?(tweet)
     sorry = tweet[0, 20] =~ /sorry/i
+    im_sorry = tweet =~ /^I'm sorry/
     info = tweet =~ /(context|information)/i
     ai_model = tweet =~ /ai language model/i
     capital_sentences = tweet =~ /\. [A-Z]/
 
-    (sorry && info) || capital_sentences || ai_model
+    (sorry && info) || im_sorry || capital_sentences || ai_model
   end
 
   def text_block(text)
