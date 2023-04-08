@@ -16,6 +16,7 @@ class ResponderJob
     end
 
     tweet = generate_tweet(prompt)
+    tweet = generate_tweet(prompt) if bad_tweet?(tweet) # try again
 
     response =
       if bad_tweet?(tweet)
