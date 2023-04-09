@@ -69,7 +69,7 @@ class ResponderJob
     {
       response_type: "in_channel",
       blocks: [
-        { type: "section", text: { type: "mrkdwn", text: tweet } },
+        { type: "section", text: { type: "plain_text", text: tweet } },
         {
           type: "context",
           elements: [
