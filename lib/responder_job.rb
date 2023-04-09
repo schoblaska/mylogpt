@@ -9,7 +9,7 @@ class ResponderJob
     if bad_prompt?(prompt)
       new_prompt =
         @gpt_client.chat(
-          "Using three words or less, extract the key words from this phrase: \"#{prompt}\""
+          "Using four words or less, extract the key words from this phrase: \"#{prompt}\""
         )
 
       new_prompt = new_prompt.downcase.gsub(/\.$/, "").gsub(%r{[^a-z'\s/]}, "")
