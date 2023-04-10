@@ -45,8 +45,10 @@ class ResponderJob
     more_info = tweet =~ /more (context|information)/i
     ai_model = tweet =~ /ai language model/i
     capital_sentences = tweet =~ /\. [A-Z]/
+    assist = tweet =~ /how can I assist/i
 
-    (sorry && info) || more_info || im_sorry || capital_sentences || ai_model
+    (sorry && info) || more_info || im_sorry || capital_sentences || ai_model ||
+      assist
   end
 
   def text_block(text)
