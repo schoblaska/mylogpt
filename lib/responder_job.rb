@@ -1,6 +1,8 @@
 class ResponderJob
   include Sidekiq::Worker
 
+  PROMPT_FILTER = %r{[^a-z0-9'\s/]} # matches chars that need to be removed from prompt
+
   def perform(prompt, response_url)
     @gpt_client = GPTClient.new
 
@@ -80,7 +82,7 @@ class ResponderJob
   end
 
   def generate_prompt(prompt)
-    prompt = prompt.downcase.gsub(%r{[^a-z0-9'\s/]}, "").strip
+    prompt = prompt.downcase.gsub(PROMPT_FILTER, "").strip
 
     if bad_prompt?(prompt)
       new_prompt =
@@ -88,7 +90,7 @@ class ResponderJob
           "Using four words or less, extract the key words from this phrase: \"#{prompt}\""
         )
 
-      new_prompt = new_prompt.downcase.gsub(/\.$/, "").gsub(%r{[^a-z'\s/]}, "")
+      new_prompt = new_prompt.downcase.gsub(/\.$/, "").gsub(PROMPT_FILTER, "")
 
       if prompt != new_prompt
         puts "change prompt from \"#{prompt}\" to \"#{new_prompt}\""
