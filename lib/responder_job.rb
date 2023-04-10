@@ -43,7 +43,7 @@ class ResponderJob
 
   def bad_prompt?(prompt)
     too_many_words = prompt.split(" ").length > 4
-    too_long = prompt.length > 25
+    too_long = prompt.length > 30
     question =
       prompt =~
         /^(what|who|why|how|would|is|are|could|how|should|do|where|which|if)/
