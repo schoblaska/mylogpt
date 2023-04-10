@@ -4,20 +4,7 @@ class ResponderJob
   def perform(prompt, response_url)
     @gpt_client = GPTClient.new
 
-    prompt = prompt.downcase.gsub(%r{[^a-z0-9'\s/]}, "").strip
-
-    if bad_prompt?(prompt)
-      new_prompt =
-        @gpt_client.chat(
-          "Using four words or less, extract the key words from this phrase: \"#{prompt}\""
-        )
-
-      new_prompt = new_prompt.downcase.gsub(/\.$/, "").gsub(%r{[^a-z'\s/]}, "")
-
-      puts "change prompt from \"#{prompt}\" to \"#{new_prompt}\""
-
-      prompt = new_prompt
-    end
+    prompt = generate_prompt(prompt)
 
     tweet = generate_tweet(prompt)
     tweet = generate_tweet(prompt) if bad_tweet?(tweet) # try again
@@ -88,6 +75,27 @@ class ResponderJob
 
   def generate_tweet(phrase)
     @gpt_client.chat(phrase, add_prompt: true)
+  end
+
+  def generate_prompt(prompt)
+    prompt = prompt.downcase.gsub(%r{[^a-z0-9'\s/]}, "").strip
+
+    if bad_prompt?(prompt)
+      new_prompt =
+        @gpt_client.chat(
+          "Using four words or less, extract the key words from this phrase: \"#{prompt}\""
+        )
+
+      new_prompt = new_prompt.downcase.gsub(/\.$/, "").gsub(%r{[^a-z'\s/]}, "")
+
+      if prompt != new_prompt
+        puts "change prompt from \"#{prompt}\" to \"#{new_prompt}\""
+      end
+
+      new_prompt
+    else
+      prompt
+    end
   end
 
   def now
