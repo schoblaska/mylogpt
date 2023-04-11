@@ -14,7 +14,7 @@ class ResponderJob
     response =
       if bad_tweet?(tweet)
         puts "bad tweet: \"#{tweet}\""
-        text_block("i'll be honest... i got nothing for that one")
+        text_block("¯\\_(ツ)_/¯")
       else
         tweet_block(tweet)
       end
