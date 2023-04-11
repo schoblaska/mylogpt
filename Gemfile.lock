@@ -17,6 +17,7 @@ GEM
     rack (2.2.6.4)
     rack-protection (3.0.5)
       rack
+    rake (13.0.6)
     redis-client (0.14.1)
       connection_pool
     ruby-openai (3.7.0)
@@ -47,6 +48,7 @@ DEPENDENCIES
   dotenv
   httparty
   puma
+  rake
   ruby-openai
   sidekiq
   sinatra
