@@ -42,7 +42,7 @@ class ResponderJob
 
   def bad_tweet?(tweet)
     sorry = tweet[0, 20] =~ /sorry/i
-    im_sorry = tweet =~ /^I'm sorry/
+    im_sorry = tweet =~ /^(i['’]m sorry|i am sorry)/i
     info = tweet =~ /(context|information)/i
     more_info = tweet =~ /more (context|information)/i
     ai_model = tweet =~ /ai language model/i
