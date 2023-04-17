@@ -35,7 +35,7 @@ class ResponderJob
     too_long = prompt.length > 30
     question =
       prompt =~
-        /^(what|who|why|how|would|is|are|could|how|should|do|where|which|if)/
+        /^(can|what|who|why|how|would|is|are|could|how|should|do|where|which|if)\s/
 
     too_many_words || too_long || question
   end
