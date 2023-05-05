@@ -16,12 +16,16 @@ curl -X POST "http://localhost:4567/tweet" \
 
 ## TODO
 * [ ] Use official Docker repo [login action](https://github.com/docker/login-action)
-* [ ] Explore creating a fine-tuned model instead of using few-shot inline prompt
-  * [ ] Automate tweet scraping and labeling (put in SQLite or something). Support multiple labels on each tweet (each label is a different training example)
-    * [ ] Separate repo for managing data and tooling
-* [ ] Fix intermittent "invalid blocks" error (if this is even still happening...)
+* [ ] Use GPT-4 (if avail - make a config option) for prompt smoothing step
+* [ ] Have a number of GPT-4 "tokens" per day. Each usage has some weighted percent (decays with each use) of using GPT-4
+  * [ ] How much more expensive is it vs current model?
+  * [ ] Track in Redis with an incrementing {date: num} key / val
+  * [ ] Add a stamp to output signature if it came from GPT-4 (in the Twitter "context" block)
+  * [ ] Mylo and Joey get extra / unlimited tokens
+* [ ] Use different tweets for few-shot learning in prompt each time
+  * [ ] Pull from a sqlite database
+  * [ ] Do a search to try to include tweets relevant to prompt
 * [ ] Simulate image tweets with DALL-E
   * [ ] Add labels for tweets with images
   * [ ] Replace image URL in completion with `[img: dall-e prompt that would generate something approximating this image]`
   * [ ] Before sending tweet to Slack, check for `[img: ]` block; if found, send prompt to DALL-E and use generated image to replace block
-* [ ] Turn into an app?
