@@ -23,8 +23,8 @@ curl -X POST "http://localhost:4567/tweet" \
   * [ ] Add a stamp to output signature if it came from GPT-4 (in the Twitter "context" block)
   * [ ] Mylo and Joey get extra / unlimited tokens
 * [ ] Use different tweets for few-shot learning in prompt each time
-  * [ ] Pull from a sqlite database
-  * [ ] Do a search to try to include tweets relevant to prompt
+  * [ ] Build a vector database of Mylo's tweets (maybe using [pgvector](https://github.com/pgvector/pgvector))
+  * [ ] Generate embedding for user prompt and pull top 20 tweets
 * [ ] Simulate image tweets with DALL-E
   * [ ] Add labels for tweets with images
   * [ ] Replace image URL in completion with `[img: dall-e prompt that would generate something approximating this image]`
