@@ -29,3 +29,16 @@ curl -X POST "http://localhost:4567/tweet" \
   * [ ] Add labels for tweets with images
   * [ ] Replace image URL in completion with `[img: dall-e prompt that would generate something approximating this image]`
   * [ ] Before sending tweet to Slack, check for `[img: ]` block; if found, send prompt to DALL-E and use generated image to replace block
+
+### Embeddings
+This didn't quite work like I hoped. I think I need to combine the earlier
+approach of "user prompt / assistant tweet" example messages, but using a set
+of tweets selected by vector similarity to prompt.
+
+That means that I'm back to needing labeled data, so I need to get ChatGPT to
+generate labels for me. Take prompts that people have used in Kenna Slack, pick
+some example tweets from the dataset and give them similar labels, then let
+ChatGPT generate the remainder. Generate 100 or so labels at a time and check
+them for quality. For each prompt for a new label, select a set of n random
+labeled tweets from the dataset so that I'm not biasing ChatGPT with the same
+examples over and over again.

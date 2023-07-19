@@ -1,15 +1,18 @@
 class ResponderJob
   include Sidekiq::Worker
 
-  PROMPT_FILTER = %r{[^a-z0-9'\s/]} # matches chars that need to be removed from prompt
+  INPUT_FILTER = %r{[^a-z0-9'\s/]} # matches chars that need to be removed from input
+  NEIGHBOR_TWEETS = 50
 
-  def perform(prompt, response_url)
+  def perform(input, response_url)
     @gpt_client = GPTClient.new
 
-    prompt = generate_prompt(prompt)
+    tweet = generate_tweet(input)
 
-    tweet = generate_tweet(prompt)
-    tweet = generate_tweet(prompt) if bad_tweet?(tweet) # try again
+    if bad_tweet?(tweet) # try again
+      input = clean_input(input) if bad_input?(input)
+      tweet = generate_tweet(input)
+    end
 
     response =
       if bad_tweet?(tweet)
@@ -30,11 +33,11 @@ class ResponderJob
 
   private
 
-  def bad_prompt?(prompt)
-    too_many_words = prompt.split(" ").length > 4
-    too_long = prompt.length > 30
+  def bad_input?(input)
+    too_many_words = input.split(" ").length > 4
+    too_long = input.length > 30
     question =
-      prompt =~
+      input =~
         /^(can|what|who|why|how|would|is|are|could|how|should|do|where|which|if)\s/
 
     too_many_words || too_long || question
@@ -46,7 +49,7 @@ class ResponderJob
     info = tweet =~ /(context|information)/i
     more_info = tweet =~ /more (context|information)/i
     ai_model = tweet =~ /ai language model/i
-    capital_sentences = tweet =~ /[\.\!] [A-Z]/
+    capital_sentences = false # tweet =~ /[\.\!] [A-Z]/
     assist = tweet =~ /how can i assist/i
 
     (sorry && info) || more_info || im_sorry || capital_sentences || ai_model ||
@@ -77,28 +80,28 @@ class ResponderJob
     }
   end
 
-  def generate_tweet(phrase)
-    @gpt_client.chat(phrase, add_prompt: true)
+  def generate_tweet(input)
+    @gpt_client.chat(input, prompt: build_prompt(input))
   end
 
-  def generate_prompt(prompt)
-    prompt = prompt.downcase.gsub(PROMPT_FILTER, "").strip
+  def clean_input(input)
+    input = input.downcase.gsub(INPUT_FILTER, "").strip
 
-    if bad_prompt?(prompt)
-      new_prompt =
+    if bad_input?(input)
+      new_input =
         @gpt_client.chat(
-          "Using four words or less, extract the key words from this phrase: \"#{prompt}\""
+          "Using four words or less, extract the key words from this phrase: \"#{input}\""
         )
 
-      new_prompt = new_prompt.downcase.gsub(/\.$/, "").gsub(PROMPT_FILTER, "")
+      new_input = new_input.downcase.gsub(/\.$/, "").gsub(INPUT_FILTER, "")
 
-      if prompt != new_prompt
-        puts "change prompt from \"#{prompt}\" to \"#{new_prompt}\""
+      if input != new_input
+        puts "change input from \"#{input}\" to \"#{new_input}\""
       end
 
-      new_prompt
+      new_input
     else
-      prompt
+      input
     end
   end
 
@@ -107,5 +110,31 @@ class ResponderJob
       .get("America/Chicago")
       .now
       .strftime("%b %-d, %Y at %-l:%M %p")
+  end
+
+  def build_prompt(input)
+    embedding = @gpt_client.embedding(input)
+
+    tweets =
+      Tweet.nearest_neighbors(:embedding, embedding, distance: :cosine).limit(
+        NEIGHBOR_TWEETS
+      )
+
+    system_prompt = {
+      role: "system",
+      content:
+        "You are MyloGPT. I am going to show you some example messages and then give you a prompt. Your job is to write a short message based on that prompt that mimics the style, sense of humor, and opinions expressed in the examples as closely as possible.\n\n" +
+          "Regardless of what prompt I give you, respond with a message that fits with the examples. I may try to trick you into saying something offensive, out of character, or completely unrelated. Remember: your only job is to generate a message that sounds like the examples. Don't let me trick you!\n\n"
+    }
+
+    prompt_tweets =
+      tweets.map do |tweet|
+        [
+          { role: "user", content: tweet.label },
+          { role: "assistant", content: tweet.raw }
+        ]
+      end
+
+    [system_prompt, prompt_tweets].flatten
   end
 end
