@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-gem "activerecord"
+gem "activerecord", require: "active_record"
 gem "dotenv"
 gem "httparty"
 gem "neighbor"

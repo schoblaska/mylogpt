@@ -10,6 +10,7 @@ services:
       - mylogpt_redis
     environment:
       - REDIS_URL=redis://mylogpt-redis:6379
+      - PG_HOST=mylogpt-postgres
     ports:
       - 4567:4567
     env_file: .env
@@ -35,3 +36,17 @@ services:
     image: mendhak/http-https-echo:29
     container_name: mylogpt-echo
     restart: unless-stopped
+
+  mylogpt_postgres:
+    container_name: mylogpt-postgres
+    image: ankane/pgvector
+    restart: unless-stopped
+    user: postgres
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=mylogpt
+    volumes:
+      - ./tmp/postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432

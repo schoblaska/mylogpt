@@ -1,0 +1,6 @@
+adapter: postgresql
+database: mylogpt
+username: postgres
+password: password
+host: <%= ENV.fetch("PG_HOST", "localhost") %>
+port: 5432
