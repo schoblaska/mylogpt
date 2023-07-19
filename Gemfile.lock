@@ -1,22 +1,44 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    activemodel (7.0.6)
+      activesupport (= 7.0.6)
+    activerecord (7.0.6)
+      activemodel (= 7.0.6)
+      activesupport (= 7.0.6)
+    activesupport (7.0.6)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 1.6, < 2)
+      minitest (>= 5.1)
+      tzinfo (~> 2.0)
+    coderay (1.1.3)
     concurrent-ruby (1.2.2)
     connection_pool (2.4.0)
     dotenv (2.8.1)
     httparty (0.21.0)
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
+    i18n (1.14.1)
+      concurrent-ruby (~> 1.0)
+    method_source (1.0.0)
     mini_mime (1.1.2)
+    minitest (5.18.1)
     multi_xml (0.6.0)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
+    neighbor (0.2.3)
+      activerecord (>= 5.2)
     nio4r (2.5.9)
+    pg (1.5.3)
+    pry (0.14.2)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
     puma (6.2.1)
       nio4r (~> 2.0)
     rack (2.2.6.4)
     rack-protection (3.0.5)
       rack
+    rake (13.0.6)
     redis-client (0.14.1)
       connection_pool
     ruby-openai (3.7.0)
@@ -44,9 +66,14 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  activerecord
   dotenv
   httparty
+  neighbor
+  pg
+  pry
   puma
+  rake
   ruby-openai
   sidekiq
   sinatra

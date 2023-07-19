@@ -1,15 +1,4 @@
-require "bundler"
-require "dotenv/load"
-require "json"
-require "openai"
-require "sidekiq"
-require "sinatra"
-require "timeout"
-require "tzinfo"
-
-require_relative "lib/prompt"
-require_relative "lib/gpt_client"
-require_relative "lib/responder_job"
+require_relative "boot"
 
 def allow?(params)
   if ENV["RACK_ENV"] == "production"
