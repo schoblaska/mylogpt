@@ -8,6 +8,7 @@ services:
     command: bundle exec ruby app.rb -s puma -e development -o 0.0.0.0
     depends_on:
       - mylogpt_redis
+      - mylogpt_postgres
     environment:
       - REDIS_URL=redis://mylogpt-redis:6379
       - PG_HOST=mylogpt-postgres
@@ -22,8 +23,10 @@ services:
     command: bundle exec sidekiq -r ./app.rb
     depends_on:
       - mylogpt_redis
+      - mylogpt_postgres
     environment:
       - REDIS_URL=redis://mylogpt-redis:6379
+      - PG_HOST=mylogpt-postgres
     env_file: .env
 
   mylogpt_redis:
