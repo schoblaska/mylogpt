@@ -8,7 +8,7 @@ class ResponderJob
     @gpt_client = GPTClient.new
 
     model = GPTClient.select_model
-    input = clean_input(input)
+    input = clean_input(input) if bad_input?(input)
     tweet = generate_tweet(input, model: model)
     tweet = generate_tweet(input, model: model) if bad_tweet?(tweet) # try again
 
@@ -88,8 +88,6 @@ class ResponderJob
 
   def clean_input(input)
     input = input.downcase.gsub(INPUT_FILTER, "").strip
-
-    return input unless bad_input?
 
     prompt = [
       {
