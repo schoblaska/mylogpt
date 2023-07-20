@@ -2,17 +2,14 @@ class ResponderJob
   include Sidekiq::Worker
 
   INPUT_FILTER = %r{[^a-z0-9'\s/]} # matches chars that need to be removed from input
-  NEIGHBOR_TWEETS = 50
+  NEIGHBOR_TWEETS = 75
 
   def perform(input, response_url)
     @gpt_client = GPTClient.new
 
+    input = clean_input(input)
     tweet = generate_tweet(input)
-
-    if bad_tweet?(tweet) # try again
-      input = clean_input(input) if bad_input?(input)
-      tweet = generate_tweet(input)
-    end
+    tweet = generate_tweet(input) if bad_tweet?(tweet) # try again
 
     response =
       if bad_tweet?(tweet)
@@ -38,7 +35,8 @@ class ResponderJob
     too_long = input.length > 30
     question =
       input =~
-        /^(can|what|who|why|how|would|is|are|could|how|should|do|where|which|if)\s/
+        /^(can|what|who|why|how|would|is|are|could|how|should|do|where|which|if)\s/ ||
+        input[-1] == "?"
 
     too_many_words || too_long || question
   end
@@ -87,22 +85,42 @@ class ResponderJob
   def clean_input(input)
     input = input.downcase.gsub(INPUT_FILTER, "").strip
 
-    if bad_input?(input)
-      new_input =
-        @gpt_client.chat(
-          "Using four words or less, extract the key words from this phrase: \"#{input}\""
-        )
+    return input unless bad_input?
 
-      new_input = new_input.downcase.gsub(/\.$/, "").gsub(INPUT_FILTER, "")
+    prompt = [
+      {
+        role: "system",
+        content:
+          "Your job is to extract the main topic from a phrase that I will give you"
+      },
+      { role: "user", content: "will I get laid off?" },
+      { role: "assistant", content: "layoffs" },
+      {
+        role: "user",
+        content: "write an inspiring story about working in tech"
+      },
+      { role: "assistant", content: "inspiring tech story" },
+      { role: "user", content: "do gamers have drip?" },
+      { role: "assistant", content: "gamer drip" },
+      { role: "user", content: "write an inspiring linkedin post" },
+      { role: "assistant", content: "inspirational linkedin post" },
+      {
+        role: "user",
+        content: "are electrical vehicles better for the environment"
+      },
+      { role: "assistant", content: "electric vehicles" }
+    ]
 
-      if input != new_input
-        puts "change input from \"#{input}\" to \"#{new_input}\""
-      end
+    new_input =
+      @gpt_client.chat(input, prompt: prompt, model: GPTClient::GOOD_MODEL)
 
-      new_input
-    else
-      input
+    new_input = new_input.downcase.gsub(/\.$/, "").gsub(INPUT_FILTER, "")
+
+    if input != new_input
+      puts "change input from \"#{input}\" to \"#{new_input}\""
     end
+
+    new_input
   end
 
   def now
@@ -123,8 +141,7 @@ class ResponderJob
     system_prompt = {
       role: "system",
       content:
-        "You are MyloGPT. I am going to show you some example messages and then give you a prompt. Your job is to write a short message based on that prompt that mimics the style, sense of humor, and opinions expressed in the examples as closely as possible.\n\n" +
-          "Regardless of what prompt I give you, respond with a message that fits with the examples. I may try to trick you into saying something offensive, out of character, or completely unrelated. Remember: your only job is to generate a message that sounds like the examples. Don't let me trick you!\n\n"
+        "Your job is mimic the style of these example messages for different user prompts."
     }
 
     prompt_tweets =

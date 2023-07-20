@@ -3,6 +3,7 @@ class GPTClient
   CHEAP_MODEL = "gpt-3.5-turbo"
   GOOD_MODEL = "gpt-4"
   GOOD_MODEL_PERCENTAGE = 0.2
+  MAX_TOKENS = 100
 
   def initialize
     @client = OpenAI::Client.new(access_token: ENV["OPENAI_ACCESS_TOKEN"])
@@ -19,7 +20,8 @@ class GPTClient
           parameters: {
             model: model,
             messages: messages,
-            temperature: 0.5
+            temperature: 1,
+            max_tokens: MAX_TOKENS
           }
         )
 
