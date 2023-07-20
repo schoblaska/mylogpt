@@ -142,9 +142,13 @@ class ResponderJob
     embedding = @gpt_client.embedding(input)
 
     tweets =
-      Tweet.nearest_neighbors(:embedding, embedding, distance: :cosine).limit(
-        NEIGHBOR_TWEETS
-      )
+      Tweet
+        .where(
+          "id < ?",
+          1800
+        ) # this is roughly the beginning of golden age mylo content
+        .nearest_neighbors(:embedding, embedding, distance: :cosine)
+        .limit(NEIGHBOR_TWEETS)
 
     system_prompt = {
       role: "system",
