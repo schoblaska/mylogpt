@@ -3,12 +3,13 @@ class ResponderJob
 
   INPUT_FILTER = %r{[^a-z0-9'\s/]} # matches chars that need to be removed from input
   NEIGHBOR_TWEETS = 75
+  MYLO_USER_ID = "U01695SLPDJ"
 
   def perform(input, response_url, user_id)
     @gpt_client = GPTClient.new
 
     model =
-      if user_id == "U01695SLPDJ" # mylo
+      if user_id == MYLO_USER_ID || input =~ /(ligma|sugma|sugand|bofa|deez)/
         GPTClient::GOOD_MODEL
       else
         GPTClient.select_model
