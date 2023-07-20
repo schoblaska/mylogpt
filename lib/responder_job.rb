@@ -154,7 +154,7 @@ class ResponderJob
     system_prompt = {
       role: "system",
       content:
-        "Your job is mimic the style of these example messages for different user prompts."
+        "Your job is to mimic the style of these example messages for different user prompts."
     }
 
     prompt_tweets =
