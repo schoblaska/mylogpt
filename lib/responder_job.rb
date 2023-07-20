@@ -55,7 +55,7 @@ class ResponderJob
     info = tweet =~ /(context|information)/i
     more_info = tweet =~ /more (context|information)/i
     ai_model = tweet =~ /ai language model/i
-    capital_sentences = tweet =~ /[\.\!] [A-Z]/
+    capital_sentences = false # tweet =~ /[\.\!] [A-Z]/
     assist = tweet =~ /how can i assist/i
 
     (sorry && info) || more_info || im_sorry || capital_sentences || ai_model ||
