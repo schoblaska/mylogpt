@@ -1,9 +1,9 @@
 class ResponderJob
-  include Sidekiq::Worker
-
   INPUT_FILTER = %r{[^a-z0-9'\s/]} # matches chars that need to be removed from input
   NEIGHBOR_TWEETS = 75
   MYLO_USER_ID = "U01695SLPDJ"
+
+  include Sidekiq::Worker
 
   def perform(input, response_url, user_id)
     @gpt_client = GPTClient.new
