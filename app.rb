@@ -15,7 +15,11 @@ post "/tweet" do
 
   halt(403, "Invalid Request") unless allow?(params)
 
-  ResponderJob.perform_async(params[:text], params[:response_url])
+  ResponderJob.perform_async(
+    params[:text],
+    params[:response_url],
+    params[:user_id]
+  )
 
   { response_type: "in_channel", text: nil }.to_json
 rescue Timeout::Error

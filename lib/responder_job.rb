@@ -4,10 +4,16 @@ class ResponderJob
   INPUT_FILTER = %r{[^a-z0-9'\s/]} # matches chars that need to be removed from input
   NEIGHBOR_TWEETS = 75
 
-  def perform(input, response_url)
+  def perform(input, response_url, user_id)
     @gpt_client = GPTClient.new
 
-    model = GPTClient.select_model
+    model =
+      if user_id == "U01695SLPDJ" # mylo
+        GPTClient::GOOD_MODEL
+      else
+        GPTClient.select_model
+      end
+
     input = clean_input(input) if bad_input?(input)
     tweet = generate_tweet(input, model: model)
     tweet = generate_tweet(input, model: model) if bad_tweet?(tweet) # try again
