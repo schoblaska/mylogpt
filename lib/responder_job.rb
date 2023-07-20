@@ -7,16 +7,17 @@ class ResponderJob
   def perform(input, response_url)
     @gpt_client = GPTClient.new
 
+    model = GPTClient.select_model
     input = clean_input(input)
-    tweet = generate_tweet(input)
-    tweet = generate_tweet(input) if bad_tweet?(tweet) # try again
+    tweet = generate_tweet(input, model: model)
+    tweet = generate_tweet(input, model: model) if bad_tweet?(tweet) # try again
 
     response =
       if bad_tweet?(tweet)
         puts "bad tweet: \"#{tweet}\""
         text_block("¯\\_(ツ)_/¯")
       else
-        tweet_block(tweet)
+        tweet_block(tweet, model: model)
       end
 
     HTTParty.post(
@@ -58,7 +59,7 @@ class ResponderJob
     { response_type: "in_channel", text: text }
   end
 
-  def tweet_block(tweet)
+  def tweet_block(tweet, model: nil)
     {
       response_type: "in_channel",
       blocks: [
@@ -71,15 +72,18 @@ class ResponderJob
               image_url: "https://schoblaska.org/assets/twitter.png",
               alt_text: "Twitter logo"
             },
-            { type: "mrkdwn", text: "Twitter | #{now}" }
+            {
+              type: "mrkdwn",
+              text: "Twitter | #{now}" + model ? " | #{model}" : ""
+            }
           ]
         }
       ]
     }
   end
 
-  def generate_tweet(input)
-    @gpt_client.chat(input, prompt: build_prompt(input))
+  def generate_tweet(input, model: nil)
+    @gpt_client.chat(input, prompt: build_prompt(input), model: model)
   end
 
   def clean_input(input)

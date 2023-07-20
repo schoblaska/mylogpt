@@ -5,12 +5,16 @@ class GPTClient
   GOOD_MODEL_PERCENTAGE = 0.2
   MAX_TOKENS = 100
 
+  def self.select_model
+    rand < GOOD_MODEL_PERCENTAGE ? GOOD_MODEL : CHEAP_MODEL
+  end
+
   def initialize
     @client = OpenAI::Client.new(access_token: ENV["OPENAI_ACCESS_TOKEN"])
   end
 
   def chat(messages, prompt: nil, model: nil)
-    model ||= rand < GOOD_MODEL_PERCENTAGE ? GOOD_MODEL : CHEAP_MODEL
+    model ||= self.class.select_model
     messages = [{ role: "user", content: messages }] if messages.is_a?(String)
     messages = prompt + messages if prompt
 
