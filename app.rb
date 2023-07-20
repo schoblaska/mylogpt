@@ -1,5 +1,7 @@
 require_relative "boot"
 
+require "sinatra"
+
 def allow?(params)
   if ENV["RACK_ENV"] == "production"
     ENV["SLACK_VERIFICATION_TOKEN"] == params[:token]
