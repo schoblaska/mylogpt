@@ -1,10 +1,8 @@
 name: Docker
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  - push
+  - pull_request
 
 env:
   DOCKER_URL: docker.jsch.io
@@ -19,8 +17,13 @@ jobs:
       - name: Log into registry
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login $DOCKER_URL -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
+      - name: Set branch name in env variable
+        run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ env.DOCKER_URL }}/mylogpt:latest
+          tags: ${{ env.DOCKER_URL }}/mylogpt:${{ env.BRANCH }}
+          build-args: |
+            BRANCH=${{ env.BRANCH }}
