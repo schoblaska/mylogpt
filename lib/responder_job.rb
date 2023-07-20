@@ -74,7 +74,7 @@ class ResponderJob
             },
             {
               type: "mrkdwn",
-              text: "Twitter | #{now}" + model ? " | #{model}" : ""
+              text: "Twitter | #{now}" + (model ? " | #{model}" : "")
             }
           ]
         }
