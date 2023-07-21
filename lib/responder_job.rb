@@ -79,10 +79,7 @@ class ResponderJob
               image_url: "https://schoblaska.org/assets/twitter.png",
               alt_text: "Twitter logo"
             },
-            {
-              type: "mrkdwn",
-              text: "Twitter | #{now}" + (model ? " | #{model}" : "")
-            }
+            { type: "mrkdwn", text: "Twitter | #{model || now}" }
           ]
         }
       ]
