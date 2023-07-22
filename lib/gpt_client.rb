@@ -24,7 +24,7 @@ class GPTClient
           parameters: {
             model: model,
             messages: messages,
-            temperature: 1,
+            temperature: 0.75,
             max_tokens: MAX_TOKENS
           }
         )
