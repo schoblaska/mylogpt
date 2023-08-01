@@ -68,7 +68,7 @@ class ResponderJob
     byline = "Twitter | "
 
     if model && temperature
-      byline << "#{model}/t:#{temperature}"
+      byline << "#{model} | t:#{temperature}"
     elsif model
       byline << "#{model}"
     else
