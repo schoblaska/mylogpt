@@ -74,6 +74,7 @@ DEPENDENCIES
   pry
   puma
   rake
+  redis-client
   ruby-openai
   sidekiq
   sinatra

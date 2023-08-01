@@ -1,20 +1,13 @@
 class ResponderJob
   INPUT_FILTER = %r{[^a-z0-9'\s/]} # matches chars that need to be removed from input
   NEIGHBOR_TWEETS = 75
-  MYLO_USER_ID = "U01695SLPDJ"
 
   include Sidekiq::Worker
 
   def perform(input, response_url, user_id)
     @gpt_client = GPTClient.new
 
-    model =
-      if user_id == MYLO_USER_ID || input =~ /(ligma|sugma|sugand|bofa|deez)/
-        GPTClient::GOOD_MODEL
-      else
-        GPTClient.select_model
-      end
-
+    model = GPTClient.select_model(user_id)
     temperature = rand(0.25..1.25).round(2)
     input = clean_input(input) if bad_input?(input)
     tweet = generate_tweet(input, model: model, temperature: temperature)
