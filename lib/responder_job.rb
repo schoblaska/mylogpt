@@ -15,12 +15,13 @@ class ResponderJob
         GPTClient.select_model
       end
 
+    temperature = rand(0.25..1.25).round(2)
     input = clean_input(input) if bad_input?(input)
-    tweet = generate_tweet(input, model: model)
+    tweet = generate_tweet(input, model: model, temperature: temperature)
 
     if bad_tweet?(tweet)
       model = GPTClient::GOOD_MODEL
-      tweet = generate_tweet(input, model: model) # try again
+      tweet = generate_tweet(input, model: model, temperature: temperature) # try again
     end
 
     response =
@@ -28,7 +29,7 @@ class ResponderJob
         puts "bad tweet: \"#{tweet}\""
         text_block("¯\\_(ツ)_/¯")
       else
-        tweet_block(tweet, model: model)
+        tweet_block(tweet, model: model, temperature: temperature)
       end
 
     HTTParty.post(
@@ -70,7 +71,17 @@ class ResponderJob
     { response_type: "in_channel", text: text }
   end
 
-  def tweet_block(tweet, model: nil)
+  def tweet_block(tweet, model: nil, temperature: nil)
+    byline = "Twitter | "
+
+    if model && temperature
+      byline << "#{model}/t:#{temperature}"
+    elsif model
+      byline << "#{model}"
+    else
+      byline << now
+    end
+
     {
       response_type: "in_channel",
       blocks: [
@@ -83,15 +94,20 @@ class ResponderJob
               image_url: "https://schoblaska.org/assets/twitter.png",
               alt_text: "Twitter logo"
             },
-            { type: "mrkdwn", text: "Twitter | #{model || now}" }
+            { type: "mrkdwn", text: byline }
           ]
         }
       ]
     }
   end
 
-  def generate_tweet(input, model: nil)
-    @gpt_client.chat(input, prompt: build_prompt(input), model: model)
+  def generate_tweet(input, model: nil, temperature: nil)
+    @gpt_client.chat(
+      input,
+      prompt: build_prompt(input),
+      model: model,
+      temperature: temperature
+    )
   end
 
   def clean_input(input)
