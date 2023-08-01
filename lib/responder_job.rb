@@ -17,7 +17,11 @@ class ResponderJob
 
     input = clean_input(input) if bad_input?(input)
     tweet = generate_tweet(input, model: model)
-    tweet = generate_tweet(input, model: model) if bad_tweet?(tweet) # try again
+
+    if bad_tweet?(tweet)
+      model = GPTClient::GOOD_MODEL
+      tweet = generate_tweet(input, model: model) # try again
+    end
 
     response =
       if bad_tweet?(tweet)
