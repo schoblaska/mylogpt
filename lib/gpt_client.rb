@@ -7,7 +7,7 @@ class GPTClient
   DEFAULT_TEMPERATURE = 0.5
   MYLO_USER_ID = "U01695SLPDJ"
   REDIS = RedisClient.new(url: ENV["REDIS_URL"])
-  GOOD_MODEL_EXPIRY_HOURS = 1
+  GOOD_MODEL_EXPIRY_HOURS = 6
 
   def self.select_model(user_id)
     if user_id == MYLO_USER_ID
