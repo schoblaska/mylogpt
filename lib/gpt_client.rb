@@ -2,12 +2,12 @@ class GPTClient
   EMBEDDINGS_MODEL = "text-embedding-ada-002"
   CHEAP_MODEL = "gpt-3.5-turbo"
   GOOD_MODEL = "gpt-4"
-  GOOD_MODEL_PERCENTAGE = 0.2
+  GOOD_MODEL_PERCENTAGE = 0.1
   MAX_TOKENS = 100
   DEFAULT_TEMPERATURE = 0.5
   MYLO_USER_ID = "U01695SLPDJ"
   REDIS = RedisClient.new(url: ENV["REDIS_URL"])
-  GOOD_MODEL_EXPIRY_HOURS = 6
+  GOOD_MODEL_EXPIRY_HOURS = 18
 
   def self.select_model(user_id)
     if user_id == MYLO_USER_ID
