@@ -9,6 +9,12 @@ class ResponderJob
 
     model = GPTClient.select_model(user_id)
     temperature = rand(0.25..1).round(2)
+
+    if user_id == "UPWUY46FK"
+      temperature = [0.25, 2.0].sample
+      model = GPTClient::GOOD_MODEL
+    end
+
     input = clean_input(input) if bad_input?(input)
     tweet = generate_tweet(input, model: model, temperature: temperature)
 
