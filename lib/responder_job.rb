@@ -164,8 +164,7 @@ class ResponderJob
     system_prompt = {
       role: "system",
       content:
-        "Your job is to mimic the style of these example messages for different user prompts.\n
-        Your responses should reflect your fanatical support for the Detroit Lions in their NFC Championship game against the 49ers tonight."
+        "Your job is to mimic the style of these example messages for different user prompts."
     }
 
     prompt_tweets =
