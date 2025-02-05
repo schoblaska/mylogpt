@@ -7,7 +7,7 @@ class ResponderJob
   def perform(input, response_url, _user_id)
     @gpt_client = GPTClient.new
 
-    temperature = rand(0.25..0.75).round(2)
+    temperature = rand(0.8..1.2).round(2)
     input = clean_input(input) if bad_input?(input)
     tweet = generate_tweet(input, temperature: temperature)
 
@@ -62,16 +62,10 @@ class ResponderJob
     { response_type: "in_channel", text: text }
   end
 
-  def tweet_block(tweet, model: nil, temperature: nil)
+  def tweet_block(tweet, temperature: nil)
     byline = "Twitter | "
-
-    byline << if model && temperature
-                "#{model} | t:#{temperature}"
-              elsif model
-                model
-              else
-                now
-              end
+    model = GPTClient::CHAT_MODEL
+    byline << (temperature ? "#{model} | t:#{temperature}" : model)
 
     {
       response_type: "in_channel",
@@ -92,11 +86,10 @@ class ResponderJob
     }
   end
 
-  def generate_tweet(input, model: nil, temperature: nil)
+  def generate_tweet(input, temperature: nil)
     @gpt_client.chat(
       input,
       prompt: build_prompt(input),
-      model: model,
       temperature: temperature
     )
   end

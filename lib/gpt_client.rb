@@ -2,7 +2,7 @@ class GPTClient
   EMBEDDINGS_MODEL = "text-embedding-ada-002"
   CHAT_MODEL = "chatgpt-4o-latest"
   MAX_TOKENS = 100
-  DEFAULT_TEMPERATURE = 0.5
+  DEFAULT_TEMPERATURE = 1
   MYLO_USER_ID = "U01695SLPDJ"
   REDIS = RedisClient.new(url: ENV["REDIS_URL"])
 
