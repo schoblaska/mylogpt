@@ -15,3 +15,8 @@ gem "ruby-openai"
 gem "sidekiq"
 gem "sinatra"
 gem "tzinfo-data"
+
+group :development do
+  gem "rubocop"
+  gem "ruby-lsp"
+end

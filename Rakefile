@@ -1,7 +1,7 @@
 require_relative "boot"
 
 task :console do
-  binding.pry
+  binding.pry # rubocop:disable Lint/Debugger
 end
 
 namespace :db do

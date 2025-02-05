@@ -4,17 +4,15 @@ class ResponderJob
 
   include Sidekiq::Worker
 
-  def perform(input, response_url, user_id)
+  def perform(input, response_url, _user_id)
     @gpt_client = GPTClient.new
 
-    model = GPTClient.select_model(user_id)
     temperature = rand(0.25..0.75).round(2)
     input = clean_input(input) if bad_input?(input)
-    tweet = generate_tweet(input, model: model, temperature: temperature)
+    tweet = generate_tweet(input, temperature: temperature)
 
     if bad_tweet?(tweet)
-      model = GPTClient::GOOD_MODEL
-      tweet = generate_tweet(input, model: model, temperature: temperature) # try again
+      tweet = generate_tweet(input, temperature: temperature) # try again
     end
 
     response =
@@ -22,7 +20,7 @@ class ResponderJob
         puts "bad tweet: \"#{tweet}\""
         text_block("¯\\_(ツ)_/¯")
       else
-        tweet_block(tweet, model: model, temperature: temperature)
+        tweet_block(tweet, temperature: temperature)
       end
 
     HTTParty.post(
@@ -41,8 +39,8 @@ class ResponderJob
     too_long = input.length > 30
     question =
       input =~
-        /^(can|what|who|why|how|would|is|are|could|how|should|do|where|which|if)\s/ ||
-        input[-1] == "?"
+      /^(can|what|who|why|how|would|is|are|could|how|should|do|where|which|if)\s/ ||
+      input[-1] == "?"
 
     too_many_words || too_long || question
   end
@@ -67,13 +65,13 @@ class ResponderJob
   def tweet_block(tweet, model: nil, temperature: nil)
     byline = "Twitter | "
 
-    if model && temperature
-      byline << "#{model} | t:#{temperature}"
-    elsif model
-      byline << "#{model}"
-    else
-      byline << now
-    end
+    byline << if model && temperature
+                "#{model} | t:#{temperature}"
+              elsif model
+                model
+              else
+                now
+              end
 
     {
       response_type: "in_channel",
@@ -130,14 +128,11 @@ class ResponderJob
       { role: "assistant", content: "electric vehicles" }
     ]
 
-    new_input =
-      @gpt_client.chat(input, prompt: prompt, model: GPTClient::GOOD_MODEL)
+    new_input = @gpt_client.chat(input, prompt: prompt)
 
     new_input = new_input.downcase.gsub(/\.$/, "").gsub(INPUT_FILTER, "")
 
-    if input != new_input
-      puts "change input from \"#{input}\" to \"#{new_input}\""
-    end
+    puts "change input from \"#{input}\" to \"#{new_input}\"" if input != new_input
 
     new_input
   end
@@ -154,12 +149,12 @@ class ResponderJob
 
     tweets =
       Tweet
-        .where(
-          "id < ?",
-          1800
-        ) # this is roughly the beginning of golden age mylo content
-        .nearest_neighbors(:embedding, embedding, distance: :cosine)
-        .limit(NEIGHBOR_TWEETS)
+      .where(
+        "id < ?",
+        1800
+      ) # this is roughly the beginning of golden age mylo content
+      .nearest_neighbors(:embedding, embedding, distance: :cosine)
+      .limit(NEIGHBOR_TWEETS)
 
     system_prompt = {
       role: "system",
