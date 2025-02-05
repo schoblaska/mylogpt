@@ -1,6 +1,6 @@
 class GPTClient
   EMBEDDINGS_MODEL = "text-embedding-ada-002"
-  CHAT_MODEL = "chatgpt-4o-latest"
+  CHAT_MODEL = "gpt-4o-mini-2024-07-18"
   MAX_TOKENS = 100
   DEFAULT_TEMPERATURE = 1
   MYLO_USER_ID = "U01695SLPDJ"
