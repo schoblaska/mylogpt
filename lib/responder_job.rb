@@ -7,7 +7,7 @@ class ResponderJob
   def perform(input, response_url, _user_id)
     @gpt_client = GPTClient.new
 
-    temperature = rand(0.8..1.2).round(2)
+    temperature = rand(0.5..1).round(2)
     input = clean_input(input) if bad_input?(input)
     tweet = generate_tweet(input, temperature: temperature)
 
