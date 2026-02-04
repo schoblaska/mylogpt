@@ -1,6 +1,6 @@
 class GPTClient
   EMBEDDINGS_MODEL = "text-embedding-ada-002"
-  CHAT_MODEL = "chatgpt-4o-latest"
+  CHAT_MODEL = "gpt-5.2"
   MAX_TOKENS = 100
   DEFAULT_TEMPERATURE = 0.75
   MYLO_USER_ID = "U01695SLPDJ"
@@ -26,9 +26,11 @@ class GPTClient
             model: model,
             messages: messages,
             temperature: temperature,
-            max_tokens: MAX_TOKENS
+            max_completion_tokens: MAX_TOKENS
           }
         )
+
+      p response
 
       response.dig("choices", 0, "message", "content")
     end
