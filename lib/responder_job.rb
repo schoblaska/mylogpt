@@ -152,7 +152,7 @@ class ResponderJob
     system_prompt = {
       role: "system",
       content:
-      "Your job is to mimic the style of these example messages for different user prompts. But speak only in French and modern Parisian slang."
+        "Your job is to mimic the style of these example messages for different user prompts."
     }
 
     prompt_tweets =
